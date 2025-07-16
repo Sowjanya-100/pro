@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Visible Pickle Cart</title>
+  <style>
+    body { font-family: Arial; background: #fffdf0; margin: 20px; }
+    h1 { text-align: center; color: #dd4316 ; }
+    select, input[type="number"] { padding: 4px; margin-right: 10px; }
+    .section {
+      margin-bottom: 20px; padding: 10px;
+      border: 1px solid #ccc; border-radius: 6px;
+      background: #fff6dd;
+    }
+    .row, .summary {
+      display: flex; justify-content: space-between;
+      align-items: center; margin-top: 10px;
+    }
+    .summary p { margin: 0; font-size: 14px; color: #333; }
+    .checkout { text-align: center; margin-top: 30px; }
+    button {
+      background: #ea8b2d ; border: none; padding: 8px 16px;
+      font-weight: bold; border-radius: 4px; cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Pickle & Snack Cart</h1>
+
+  <div class="section" id="veg">
+    <strong>Veg Pickles:</strong>
+    <div class="row">
+      <select onchange="updateItem('veg', this.value)">
+        <option value="0">Select</option>
+        <option value="Mango Pickle,150">Mango Pickle — ₹150</option>
+        <option value="Lime Pickle,120">Lime Pickle — ₹120</option>
+        <option value="Gongura Pickle,130">Leaf Pickle — ₹130</option>
+      </select>
+      Qty: <input type="number" id="vegQty" value="0" min="0" onchange="updateTotal()">
+    </div>
+    <div class="summary" id="vegSummary"></div>
+  </div>
+
+  <div class="section" id="nonveg">
+    <strong>Non-Veg Pickles:</strong>
+    <div class="row">
+      <select onchange="updateItem('nonveg', this.value)">
+        <option value="0">Select</option>
+        <option value="Chicken Pickle,250">Chicken Pickle — ₹250</option>
+        <option value="Mutton Pickle,280">Mutton Pickle — ₹280</option>
+        <option value="Fish Pickle,220">Fish Pickle — ₹220</option>
+        <option value="France Pickle,300">France Pickle — ₹300</option>
+      </select>
+      Qty: <input type="number" id="nonvegQty" value="0" min="0" onchange="updateTotal()">
+    </div>
+    <div class="summary" id="nonvegSummary"></div>
+  </div>
+
+  <div class="section" id="snacks">
+    <strong>Snacks:</strong>
+    <div class="row">
+      <select onchange="updateItem('snacks', this.value)">
+        <option value="0">Select</option>
+        <option value="Biscuits,90">Biscuits — ₹90</option>
+        <option value="Cookies,100">Cookies — ₹100</option>
+        <option value="Dry Fruits,150">Dry Fruits — ₹150</option>
+        <option value="Chips,70">Chips — ₹70</option>
+      </select>
+      Qty: <input type="number" id="snacksQty" value="0" min="0" onchange="updateTotal()">
+    </div>
+    <div class="summary" id="snacksSummary"></div>
+  </div>
+
+  <div class="checkout">
+    <h2 id="total">Total: ₹0</h2>
+    <button>Proceed to Checkout</button>
+  </div>
+
+  <script>
+    const cart = {
+      veg: { name: "", price: 0 },
+      nonveg: { name: "", price: 0 },
+      snacks: { name: "", price: 0 }
+    };
+
+    function updateItem(category, value) {
+      const [name, price] = value.split(',');
+      cart[category] = { name, price: parseInt(price) || 0 };
+      updateTotal();
+    }
+
+    function updateTotal() {
+      let total = 0;
+
+      for (const category of ['veg', 'nonveg', 'snacks']) {
+        const qty = parseInt(document.getElementById(`${category}Qty`).value || 0);
+        const { name, price } = cart[category];
+        const subtotal = price * qty;
+        total += subtotal;
+
+        const summary = document.getElementById(`${category}Summary`);
+        summary.innerHTML = name
+          ? `<p><strong>${name}</strong> @ ₹${price} × ${qty} = ₹${subtotal}</p>`
+          : "";
+      }
+
+      document.getElementById('total').textContent = `Total: ₹${total}`;
+    }
+  </script>
+</body>
+</html>
