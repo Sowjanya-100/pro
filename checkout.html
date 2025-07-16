@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Checkout Page</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      background: linear-gradient(to right, #ecf0f1, #dfe6e9);
+      margin: 0;
+      padding: 0;
+    }
+
+    .checkout-container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: #ffffff;
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+    }
+
+    h1, h2 {
+      color: #66cec9;
+      text-align: center;
+    }
+
+    .form-section {
+      margin-bottom: 25px;
+    }
+
+    input {
+      width: 100%;
+      padding: 10px;
+      margin-top: 10px;
+      border: 1px solid #90ccf4;
+      border-radius: 8px;
+      box-sizing: border-box;
+      font-size: 14px;
+    }
+
+    button.place-order {
+      width: 100%;
+      padding: 12px;
+      background-color: #10331f;
+      color: white;
+      border: none;
+      border-radius: 10px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: background 0.3s ease;
+      margin-top: 20px;
+    }
+
+    button.place-order:hover {
+      background-color: #219150;
+    }
+
+    .order-success {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .hidden {
+      display: none;
+    }
+  </style>
+</head>
+<body>
+  <div class="checkout-container">
+    <h1>Secure Checkout</h1>
+
+    <form id="checkout-form">
+      <div class="form-section">
+        <h2>Shipping Info</h2>
+        <input type="text" placeholder="Full Name" required />
+        <input type="text" placeholder="Address" required />
+        <input type="tel" placeholder="Phone Number" required />
+        <input type="email" placeholder="Email" required />
+      </div>
+
+      <div class="form-section">
+        <h2>💳 Payment Details</h2>
+        <input type="text" placeholder="Card Number" required />
+        <input type="text" placeholder="MM/YY" required />
+        <input type="text" placeholder="CVV" required />
+      </div>
+
+      <button type="submit" class="place-order">Place Order</button>
+    </form>
+
+    <div id="order-success" class="order-success hidden">
+      <h2>🎉 Order Successful!</h2>
+      <p>Thanks for shopping with us.</p>
+      <p>Your Order ID is <strong id="order-id">#ORD00000</strong></p>
+    </div>
+  </div>
+
+  <script>
+    document.getElementById('checkout-form').addEventListener('submit', function (e) {
+      e.preventDefault();
+
+      const orderId = 'ORD' + Math.floor(Math.random() * 1000000);
+      document.getElementById('order-id').textContent = '#' + orderId;
+
+      document.getElementById('checkout-form').style.display = 'none';
+      document.getElementById('order-success').classList.remove('hidden');
+    });
+  </script>
+</body>
+</html>
